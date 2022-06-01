@@ -2,94 +2,77 @@
 var upperCase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 var lowerCase = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 var specialCase = ["+", "-", "&", "|", "!", "(", ")", "{", "}", "[", "]", "^", "~", "*", "?", ":", "'", '"'];
-var numericalNumeral = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+var numbersNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 var finalPass= [];
 var numChars;
+//Chosen vars
 var specialChose;
-var numericalChose;
+var numChose;
 var lowerChose;
 var upperChose;
-
-// create an empty array that will hold the user selected characters
-var OptionsArray = [];
-
-// var possibleChars = [];
+//----- chosen var
+var OptionsArray = []; //Array of selected
 var possibleChars = [];
-
-// on game start prompt for users numbers of character and hold in variable
-
-
 function PasswordFinder() {
-    numChars = parseInt(prompt("How many characters would you like? Between 8 and 128"));
+    numChars = parseInt(prompt("How many characters would you like? 8-128"));
 //user input 8-128
     if (numChars < 8 || numChars > 128) {
-        alert("Pick between 8 * 128")
+        alert("Pick 8 - 128")
         PasswordFinder();
         return null;
     }
     else if (numChars >= 8 && numChars <= 128) {
-        console.log(numChars);
-        userParameters();
+        userPara();
         return numChars;
     }
 //validation
     else {
-        alert("Wrong Syntax. Please enter a number.")
+        alert("validification failed")
         PasswordFinder();
         return null;
     }
 }
 
-
 //character selection varibales
-function userParameters() {
-    specialChose = confirm("Would you like special characters?");
-    numericalChose = confirm("Would you like numbers?");
-    lowerChose = confirm("Would you like lowercase characters?");
-    upperChose = confirm("Would you like uppercase characters?");
+function userPara() {
+    specialChose = confirm("special characters?");
+    numericalChose = confirm("numbers?");
+    lowerChose = confirm("lowercase characters?");
+    upperChose = confirm("uppercase characters?");
     //validifies
-    if (!specialChose && !numericalChose && !lowerChose && !upperChose) {
-        alert("You need to select at least one type of character");
-        userParameters();
+    if (!specialChose && !numChose && !lowerChose && !upperChose) {
+        alert("valdific failed no types chosen");
+        userPara();
         return null();
     }
-    console.log(specialChose);
-    console.log(numericalChose);
-    console.log(upperChose);
-    console.log(lowerChose);
     ChosenArray();
 }
-
-//new array with characters chosen
+// pass charactesr into new array with characters chosen
 function ChosenArray() {
-    possibleChars = [];
-    if (specialChose) {
-        possibleChars = possibleChars.concat(specialCase);
-    }
-
-    if (upperChose) {
-        possibleChars = possibleChars.concat(upperCase);
-    }
-    if (lowerChose) {
-        possibleChars = possibleChars.concat(lowerCase);
-    }
-    if (numericalChose) {
-        possibleChars = possibleChars.concat(numericalNumeral);
-    }
-    console.log(possibleChars);
-    var password = finalPassLoop();
-    var passwordText = document.querySelector("#password");
-    passwordText.value = password;
+  possibleChars = [];
+  if (specialChose) {
+      possibleChars = possibleChars.concat(specialCase);
+  }
+  if (upperChose) {
+      possibleChars = possibleChars.concat(upperCase);
+  }
+  if (lowerChose) {
+      possibleChars = possibleChars.concat(lowerCase);
+  }
+  if (numericalChose) {
+      possibleChars = possibleChars.concat(numbersNumbers);
+  }
+  var password = finalPassLoop();
+  var passwordText = document.querySelector("#password");
+  passwordText.value = password;
 }
-//final pass loop
+//final pass loop using units from array of chosen
 function finalPassLoop() {
-    finalPass = [];
-    for (let i = 0; i < numChars; i++) {
-     finalPass = finalPass.concat(possibleChars[Math.floor(Math.random() * possibleChars.length)]);
-    }
-    console.log(numChars);
-    console.log(finalPass);
-    return finalPass.join ("");
+  finalPass = [];
+  for (let i = 0; i < numChars; i++) {
+   finalPass = finalPass.concat(possibleChars[Math.floor(Math.random() * possibleChars.length)]);
+  }
+  return finalPass.join ("");
 }
 
 
@@ -98,9 +81,9 @@ var generateBtn = document.querySelector("#generate");
 
 // write password
 function writePassword() {
-    var password = generatePassword();
-    var passwordText = document.querySelector("#password");
-    passwordText.value = finalPass;
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
+  passwordText.value = finalPass;
 }
 
-    generateBtn.addEventListener("click", PasswordFinder) 
+  generateBtn.addEventListener("click", PasswordFinder) 
