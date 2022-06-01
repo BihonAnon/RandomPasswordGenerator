@@ -85,5 +85,5 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
   passwordText.value = finalPass;
 }
-
+  
   generateBtn.addEventListener("click", PasswordFinder) 
