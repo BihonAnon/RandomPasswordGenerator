@@ -1,45 +1,106 @@
-// Assignment Code
-const capitals = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+//  Create variables to hold the character options for Special, lowercase, uppercase and numeric character
+var upperCase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+var lowerCase = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+var specialCase = ["+", "-", "&", "|", "!", "(", ")", "{", "}", "[", "]", "^", "~", "*", "?", ":", "'", '"'];
+var numericalNumeral = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+var finalPass= [];
+var numChars;
+var specialChose;
+var numericalChose;
+var lowerChose;
+var upperChose;
 
-const lowers = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
-//Array Being Dumb
-const specials = ["/", "[", "!", "@", "#", "?", "$", "%", "^", "&", "*", "(", ")", "_", "+", , "-", "=",  ";", "'", ":", "/", "|", ",", ".", "<", ">", "/", "?", "~", "]", "/", ";"];
-specials.push("", "`")
-//"\[", "\]", "\{", "}"."\"
-const numbers = ["1","2","3","4","5","6","7","8","9","0"];
-const passwordFinal = []
-const passwordCharacters = []
-var capitalsSelected = ""
-var numbersSelected = ""
-var lowersSelected = ""
-var specialsSelected = ""
-var generateBtn = document.querySelector("#generate");
+// create an empty array that will hold the user selected characters
+var OptionsArray = [];
 
-// Write password to the #password input
-function writePassword(click) {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-  let characterLength = prompt("Please enter # of characters","sir")
-  if (characterLength != null && capitalsSelected === "T"){
-    let capitalsSelected = prompt("You have" + characterLength + " characters, would you like upper case characters? (T/F)")
-    passwordCharacters = letCharacters.concat(capitals);
-  }
-  if (lowersSelected != null && lowersSelected === "T"){
-    let lowersSelected = prompt ("You have" + characterLength + " characters, would you like lower case characters? (T/F) [Uppercase: " + capitalsSelected + "] [Lowercase: " + lowersSelected + "]") 
-    passwordCharacters = letCharacters.concat(lowers);
-  }
-  if (numbersSelected != null && numbersSelected === "T"){
-    let numbersSelected = prompt ("You have" + characterLength + " characters, would you like numbers case characters? (T/F) [Uppercase: " + capitalsSelected + "] [Lowercase: " + lowersSelected + "] [numbers: " + numbersSelected + "]" ); 
-    passwordCharacters = letCharacters.concat(numbers);
-  }
-  if (specialsSelected != null && specialsSelected === "T"){
-    let numbersSelected = prompt ("You have" + characterLength + " characters, would you like lower case characters? (T/F) [Uppercase: " + capitalsSelected + "] [Lowercase: " + lowersSelected + "] [Specialcase: " + specialsSelected + "] [numbers: " + numbersSelected + "]") 
-    passwordCharacters = letCharacters.concat(specials);
-  }
-  console.log(passwordCharacters)
-  //passwordFinal.join()
-  //passwordText.value = passwordFinal;
+// var possibleChars = [];
+var possibleChars = [];
+
+// on game start prompt for users numbers of character and hold in variable
+
+
+function PasswordFinder() {
+    numChars = parseInt(prompt("How many characters would you like? Between 8 and 128"));
+//user input 8-128
+    if (numChars < 8 || numChars > 128) {
+        alert("Pick between 8 * 128")
+        PasswordFinder();
+        return null;
+    }
+    else if (numChars >= 8 && numChars <= 128) {
+        console.log(numChars);
+        userParameters();
+        return numChars;
+    }
+//validation
+    else {
+        alert("Wrong Syntax. Please enter a number.")
+        PasswordFinder();
+        return null;
+    }
 }
 
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+
+//character selection varibales
+function userParameters() {
+    specialChose = confirm("Would you like special characters?");
+    numericalChose = confirm("Would you like numbers?");
+    lowerChose = confirm("Would you like lowercase characters?");
+    upperChose = confirm("Would you like uppercase characters?");
+    //validifies
+    if (!specialChose && !numericalChose && !lowerChose && !upperChose) {
+        alert("You need to select at least one type of character");
+        userParameters();
+        return null();
+    }
+    console.log(specialChose);
+    console.log(numericalChose);
+    console.log(upperChose);
+    console.log(lowerChose);
+    ChosenArray();
+}
+
+//new array with characters chosen
+function ChosenArray() {
+    possibleChars = [];
+    if (specialChose) {
+        possibleChars = possibleChars.concat(specialCase);
+    }
+
+    if (upperChose) {
+        possibleChars = possibleChars.concat(upperCase);
+    }
+    if (lowerChose) {
+        possibleChars = possibleChars.concat(lowerCase);
+    }
+    if (numericalChose) {
+        possibleChars = possibleChars.concat(numericalNumeral);
+    }
+    console.log(possibleChars);
+    var password = finalPassLoop();
+    var passwordText = document.querySelector("#password");
+    passwordText.value = password;
+}
+//final pass loop
+function finalPassLoop() {
+    finalPass = [];
+    for (let i = 0; i < numChars; i++) {
+     finalPass = finalPass.concat(possibleChars[Math.floor(Math.random() * possibleChars.length)]);
+    }
+    console.log(numChars);
+    console.log(finalPass);
+    return finalPass.join ("");
+}
+
+
+// Assignmenmt code
+var generateBtn = document.querySelector("#generate");
+
+// write password
+function writePassword() {
+    var password = generatePassword();
+    var passwordText = document.querySelector("#password");
+    passwordText.value = finalPass;
+}
+
+    generateBtn.addEventListener("click", PasswordFinder) 
